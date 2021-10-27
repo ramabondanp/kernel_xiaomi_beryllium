@@ -112,6 +112,7 @@ export OUTDIR=/root
 if [[ $CLONE == true ]]
 then
   echo "Cloning dependencies"
+  git clone https://gitlab.com/rama982/gcc-linaro-7.5.0 --depth=1 "$OUTDIR"/gcc-linaro
   git clone https://github.com/rama982/clang --depth=1 "$OUTDIR"/clang-llvm
   git clone https://github.com/rama982/AnyKernel3 -b beryllium "$OUTDIR"/AnyKernel
 fi
@@ -129,7 +130,7 @@ export ZIPNAME="Genom-R"
 export IMAGE="${OUTDIR}/arch/arm64/boot/Image.gz-dtb"
 export DATE=$(date "+%m%d")
 export BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-export PATH="${OUTDIR}/clang-llvm/bin:${PATH}"
+export PATH="${OUTDIR}/gcc-linaro/bin:${OUTDIR}/clang-llvm/bin:${PATH}"
 export KBUILD_COMPILER_STRING="$(${OUTDIR}/clang-llvm/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')"
 export KBUILD_BUILD_HOST=$(uname -a | awk '{print $2}')
 export ARCH=arm64
@@ -148,6 +149,8 @@ Build is started
 <b>Device : </b>$CONFIG
 <b>Host : </b>$KBUILD_BUILD_HOST
 <b>Core Count : </b>$PROCS cores
+<b>LD: </b>$(aarch64-linux-gnu-ld --version | grep ld )
+<b>CLang: </b>$(grep LINUX_COMPILER ${OUTDIR}/include/generated/compile.h  |  sed -e 's/.*LINUX_COMPILER "//' -e 's/"$//')
 <b>Branch : </b>$BRANCH
 <b>Top Commit : </b>$COMMIT_HEAD
 "
@@ -167,7 +170,8 @@ then
   tg_post_build "$ZIPFILE" "
 <b>Build took : </b>$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)
 <b>Kernel Version : </b>$KERVER
-<b>Compiler: </b>$(grep LINUX_COMPILER ${OUTDIR}/include/generated/compile.h  |  sed -e 's/.*LINUX_COMPILER "//' -e 's/"$//')
+<b>LD: </b>$(aarch64-linux-gnu-ld --version | grep ld )
+<b>CLang: </b>$(grep LINUX_COMPILER ${OUTDIR}/include/generated/compile.h  |  sed -e 's/.*LINUX_COMPILER "//' -e 's/"$//')
 <b>Enable LTO Clang: </b>$([[ -n "$LTO" ]] && echo "true" || echo "false")
 <b>MD5 Checksum : </b><code>$MD5CHECK</code>
 "
