@@ -768,9 +768,8 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 {
 	int rc = 0;
 
-<<<<<<< HEAD
 	dsi_panel_exd_disable(panel);
-=======
+
 	if (g_panel->panel_reset_skip) {
 			pr_info("%s: panel reset skip\n", __func__);
 			return rc;
@@ -780,7 +779,6 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 		if (gpio_is_valid(panel->reset_config.reset_gpio))
 			gpio_set_value(panel->reset_config.reset_gpio, 0);
 	}
->>>>>>> 852c9ebbaf95... drivers: gpu: drm: Import Xiaomi changes
 
 	if (gpio_is_valid(panel->reset_config.disp_en_gpio))
 		gpio_set_value(panel->reset_config.disp_en_gpio, 0);
