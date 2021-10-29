@@ -113,7 +113,7 @@ if [[ $CLONE == true ]]
 then
   echo "Cloning dependencies"
   git clone https://gitlab.com/rama982/gcc-linaro-7.5.0 --depth=1 "$OUTDIR"/gcc-linaro
-  git clone https://github.com/Cyborg2017/prebuilts_clang_host_linux-x86_clang-r365631c --depth=1 "$OUTDIR"/clang-llvm
+  git clone https://github.com/rama982/clang --depth=1 "$OUTDIR"/clang-llvm
   git clone https://github.com/rama982/AnyKernel3 -b beryllium "$OUTDIR"/AnyKernel
 fi
 
@@ -150,7 +150,7 @@ Build is started
 <b>Host : </b>$KBUILD_BUILD_HOST
 <b>Core Count : </b>$PROCS cores
 <b>LD: </b>$(aarch64-linux-gnu-ld --version | grep ld )
-<b>CLang: </b>$(grep LINUX_COMPILER ${OUTDIR}/include/generated/compile.h  |  sed -e 's/.*LINUX_COMPILER "//' -e 's/"$//')
+<b>Clang: </b>$KBUILD_COMPILER_STRING
 <b>Branch : </b>$BRANCH
 <b>Top Commit : </b>$COMMIT_HEAD
 "
@@ -171,7 +171,7 @@ then
 <b>Build took : </b>$((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)
 <b>Kernel Version : </b>$KERVER
 <b>LD: </b>$(aarch64-linux-gnu-ld --version | grep ld )
-<b>CLang: </b>$(grep LINUX_COMPILER ${OUTDIR}/include/generated/compile.h  |  sed -e 's/.*LINUX_COMPILER "//' -e 's/"$//')
+<b>Clang: </b>$KBUILD_COMPILER_STRING
 <b>Enable LTO Clang: </b>$([[ -n "$LTO" ]] && echo "true" || echo "false")
 <b>MD5 Checksum : </b><code>$MD5CHECK</code>
 "
