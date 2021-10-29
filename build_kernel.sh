@@ -113,7 +113,7 @@ if [[ $CLONE == true ]]
 then
   echo "Cloning dependencies"
   git clone https://gitlab.com/rama982/gcc-linaro-7.5.0 --depth=1 "$OUTDIR"/gcc-linaro
-  git clone https://github.com/rama982/clang --depth=1 "$OUTDIR"/clang-llvm
+  git clone https://gitlab.com/rama982/clang --depth=1 "$OUTDIR"/clang-llvm
   git clone https://github.com/rama982/AnyKernel3 -b beryllium "$OUTDIR"/AnyKernel
 fi
 
